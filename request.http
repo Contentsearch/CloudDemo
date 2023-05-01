@@ -1,0 +1,49 @@
+############ storage ############
+### 修改数量
+GET localhost:8081/v1/storage/subtract?id=1&num=2
+
+### 新增
+
+POST localhost:8081/v1/storage/addStorage
+Content-Type: application/json
+
+{
+  "name": "猪肉",
+  "remark": "小白猪",
+  "num": "4356"
+}
+
+########### order ##########
+
+### 新增
+POST localhost:8082/v1/order/add
+Content-Type: application/json
+
+{
+  "orderNo": "ds123213",
+  "userId": 24281412,
+  "account": 123,
+  "amount": "324325"
+}
+
+### 下单
+POST localhost:8082/v1/order/submitOrder
+Content-Type: application/json
+
+{
+  "userId": 2,
+  "itemId": 1,
+  "count": 5,
+  "amount": "3"
+}
+
+#################  account ########
+
+### 新增
+POST localhost:8083/v1/account/add
+Content-Type: application/json
+
+{
+  "name": "秦叔宝",
+  "amount": "10000.00"
+}

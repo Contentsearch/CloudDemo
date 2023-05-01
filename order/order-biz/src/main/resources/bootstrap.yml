@@ -1,0 +1,19 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: order-service
+  profiles:
+    active: local
+  main:
+    allow-bean-definition-overriding: true
+# nacos config
+spring.cloud.nacos.config.file-extension: yaml
+spring.cloud.nacos.discovery.server-addr: ${nacos-server}
+spring.cloud.nacos.config.server-addr: ${nacos-server}
+
+spring.cloud.nacos.config.namespace: ${nacos-namespace}
+spring.cloud.nacos.discovery.namespace: ${nacos-namespace}
+
+spring.cloud.nacos.config.group: ${nacos-group}
