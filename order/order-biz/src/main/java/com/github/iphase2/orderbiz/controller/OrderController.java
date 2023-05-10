@@ -8,6 +8,9 @@ import com.github.iphase2.order.dto.SubmitInfoDto;
 import com.github.iphase2.orderbiz.eo.Order;
 import com.github.iphase2.orderbiz.mapper.OrderMapper;
 import com.github.iphase2.storage.api.StorageApi;
+import io.seata.core.context.RootContext;
+import io.seata.spring.annotation.GlobalTransactional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +25,7 @@ import java.math.BigDecimal;
  * @Date 2023/5/1 12:50
  * @description:
  */
+@Slf4j
 @RestController
 @RequestMapping("/v1/order")
 public class OrderController implements OrderApi {
@@ -43,8 +47,9 @@ public class OrderController implements OrderApi {
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @GlobalTransactional
     public Boolean submitOrder(SubmitInfoDto dto) {
+        log.info("Seata全局事务id======order===========>{}", RootContext.getXID());
         OrderDto orderDto = new OrderDto();
         orderDto.setOrderNo("DD" + System.currentTimeMillis());
         orderDto.setCount(dto.getCount());
@@ -59,6 +64,7 @@ public class OrderController implements OrderApi {
         accountDto.setAmount(totalAmount);
         accountDto.setId(dto.getUserId());
         accountApi.updateAccount(accountDto);
+//        int a = 1/0;
         return storageResult;
     }
 }

@@ -32,3 +32,6 @@ request.http  接口测试文件
 # 功能
 每个服务有写了一些接口实现，在订单中心 order 完成了下单接口，测试此接口需要
 启动 account 和 storage ，并调用他们完成业务操作
+
+# seata - AT模式
+[seata官方文档](https://seata.io/zh-cn/docs/overview/what-is-seata.html)

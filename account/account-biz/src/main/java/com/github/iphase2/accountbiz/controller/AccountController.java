@@ -4,6 +4,9 @@ import com.github.iphase2.account.api.AccountApi;
 import com.github.iphase2.account.dto.AccountDto;
 import com.github.iphase2.accountbiz.eo.Account;
 import com.github.iphase2.accountbiz.mapper.AccountMapper;
+import io.seata.core.context.RootContext;
+import io.seata.spring.annotation.GlobalTransactional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +22,7 @@ import java.util.Optional;
  * @Date 2023/5/1 12:50
  * @description:
  */
+@Slf4j
 @RestController
 @RequestMapping("/v1/account")
 public class AccountController implements AccountApi {
@@ -41,13 +45,14 @@ public class AccountController implements AccountApi {
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
     public Boolean updateAccount(AccountDto dto) {
+        log.info("Seata全局事务id======account===========>{}", RootContext.getXID());
         Account dbAccount = accountMapper.selectById(dto.getId());
         Account account = new Account();
         BeanUtils.copyProperties(dto, account);
         account.setAmount(Optional.ofNullable(dbAccount.getAmount()).orElse(BigDecimal.ZERO).subtract((dto.getAmount())));
         accountMapper.updateById(account);
+        int a = 1/0;
         return Boolean.TRUE;
     }
 }
